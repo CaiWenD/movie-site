@@ -1,0 +1,126 @@
+{
+  "corsProxies": [
+    "https://corsproxy.io/?url=",
+    "https://api.allorigins.win/raw?url=",
+    "https://cors-anywhere.herokuapp.com/"
+  ],
+  "defaultProxy": 0,
+  "sources": [
+    {
+      "key": "ffzy",
+      "name": "非凡资源",
+      "api": "https://cj.ffzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "hongniu",
+      "name": "红牛资源",
+      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "lzzy",
+      "name": "量子资源",
+      "api": "https://cj.lziapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "hwzy",
+      "name": "华为资源",
+      "api": "https://hjzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "bfzy",
+      "name": "暴风资源",
+      "api": "https://bfzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "sdzy",
+      "name": "闪电资源",
+      "api": "https://sdzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "tpzy",
+      "name": "淘片资源",
+      "api": "https://topzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "ckzy",
+      "name": "CK资源",
+      "api": "https://ckzy.me/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "woczy",
+      "name": "卧槽资源",
+      "api": "https://wmzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "360zy",
+      "name": "360资源",
+      "api": "https://360zy.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "jinying",
+      "name": "金鹰资源",
+      "api": "https://jyzyapi.com/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "heimuer",
+      "name": "黑木耳",
+      "api": "https://json.heimuer.xyz/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "lydzy",
+      "name": "低端资源",
+      "api": "https://api.lziapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "kbzy",
+      "name": "快播资源",
+      "api": "https://www.kbzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "dbzy",
+      "name": "豆瓣资源",
+      "api": "https://dbzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "hongniu2",
+      "name": "红牛2",
+      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "tfzy",
+      "name": "天空资源",
+      "api": "https://api.tiankongapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "mgzy",
+      "name": "魔法资源",
+      "api": "https://api.mofaboch.com/api.php/provide/vod/",
+      "type": 1
+    }
+  ],
+  "parses": [
+    { "name": "虾米", "url": "https://jx.xmflv.com/?url=" },
+    { "name": "云解", "url": "https://yparse.ik9.cc/index.php?url=" },
+    { "name": "咸鱼", "url": "https://jx.xymp4.cc/?url=" },
+    { "name": "盘古", "url": "https://www.playm3u8.cn/jiexi.php?url=" },
+    { "name": "夜幕", "url": "https://yemu.xyz/?url=" },
+    { "name": "冰豆", "url": "https://bd.jx.cn/?url=" }
+  ]
+}
