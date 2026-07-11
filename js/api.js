@@ -54,16 +54,6 @@ const API = (() => {
     return config;
   }
 
-  function hasServerProxy() {
-    // Detect Vercel / Cloudflare Pages / any platform with /api/proxy
-    const h = location.hostname;
-    return h.includes('vercel.app') || h.includes('pages.dev') || h.includes('workers.dev');
-  }
-
-  function isFileProtocol() {
-    return location.protocol === 'file:';
-  }
-
   async function tryFetch(url, timeout = 10000) {
     const resp = await fetch(url, { signal: AbortSignal.timeout(timeout) });
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
@@ -72,25 +62,26 @@ const API = (() => {
   }
 
   async function request(url) {
-    // Strategy 1: Server proxy (Vercel / Cloudflare Pages)
-    if (hasServerProxy()) {
+    // CORS proxies that work from HTTPS origins
+    const proxies = [
+      (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+      (u) => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u),
+      (u) => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
+      (u) => u // direct fallback
+    ];
+
+    for (const proxyFn of proxies) {
       try {
-        return await tryFetch('/api/proxy?url=' + encodeURIComponent(url), 15000);
+        const proxyUrl = proxyFn(url);
+        const result = await tryFetch(proxyUrl, 15000);
+        if (result) return result;
       } catch (e) {
-        console.warn('Server proxy failed:', e.message);
+        console.warn('Failed:', proxyUrl || url, e.message);
+        continue;
       }
     }
 
-    // Strategy 2: Direct fetch (works when served via HTTP with CORS)
-    if (!isFileProtocol()) {
-      try {
-        return await tryFetch(url, 8000);
-      } catch (e) {
-        console.warn('Direct fetch failed:', e.message);
-      }
-    }
-
-    // Strategy 3: Third-party CORS proxies (for file:// protocol)
+    throw new Error('All request strategies failed');
     const proxies = [
       'https://api.allorigins.win/raw?url=',
       'https://api.codetabs.com/v1/proxy?quest=',
