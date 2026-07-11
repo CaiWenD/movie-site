@@ -245,6 +245,6 @@ const API = (() => {
 
   return {
     loadConfig, getCategories, getVideoList, search,
-    getVideoDetail, getSources, getParses, getProxies, getProxyMode
+    getVideoDetail, getSources, getParses, getProxies
   };
 })();
