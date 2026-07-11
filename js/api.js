@@ -54,8 +54,10 @@ const API = (() => {
     return config;
   }
 
-  function isVercel() {
-    return location.hostname.includes('vercel.app');
+  function hasServerProxy() {
+    // Detect Vercel / Cloudflare Pages / any platform with /api/proxy
+    const h = location.hostname;
+    return h.includes('vercel.app') || h.includes('pages.dev') || h.includes('workers.dev');
   }
 
   function isFileProtocol() {
@@ -69,16 +71,13 @@ const API = (() => {
     try { return JSON.parse(text); } catch { return text; }
   }
 
-  // On Vercel: use serverless proxy (no CORS issues)
-  // On file://: use third-party CORS proxies
-  // On HTTP: try direct first, fallback to proxy
   async function request(url) {
-    // Strategy 1: Vercel serverless proxy (always works)
-    if (isVercel()) {
+    // Strategy 1: Server proxy (Vercel / Cloudflare Pages)
+    if (hasServerProxy()) {
       try {
         return await tryFetch('/api/proxy?url=' + encodeURIComponent(url), 15000);
       } catch (e) {
-        console.warn('Vercel proxy failed:', e.message);
+        console.warn('Server proxy failed:', e.message);
       }
     }
 
