@@ -71,12 +71,12 @@ const API = (() => {
     ];
 
     for (const proxyFn of proxies) {
+      const proxyUrl = proxyFn(url);
       try {
-        const proxyUrl = proxyFn(url);
         const result = await tryFetch(proxyUrl, 15000);
         if (result) return result;
       } catch (e) {
-        console.warn('Failed:', proxyUrl || url, e.message);
+        console.warn('Failed:', proxyUrl, e.message);
         continue;
       }
     }
