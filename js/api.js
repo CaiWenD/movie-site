@@ -54,12 +54,12 @@ const API = (() => {
     return config;
   }
 
-  function isFileProtocol() {
-    return location.protocol === 'file:';
+  function isVercel() {
+    return location.hostname.includes('vercel.app');
   }
 
-  function getProxyMode() {
-    return localStorage.getItem('proxy_mode') || 'auto'; // auto | direct | proxy | none
+  function isFileProtocol() {
+    return location.protocol === 'file:';
   }
 
   async function tryFetch(url, timeout = 10000) {
@@ -69,13 +69,21 @@ const API = (() => {
     try { return JSON.parse(text); } catch { return text; }
   }
 
-  // Try multiple approaches: direct → different proxies
+  // On Vercel: use serverless proxy (no CORS issues)
+  // On file://: use third-party CORS proxies
+  // On HTTP: try direct first, fallback to proxy
   async function request(url) {
-    const mode = getProxyMode();
-    const useProxy = mode === 'proxy' || (mode === 'auto' && isFileProtocol());
+    // Strategy 1: Vercel serverless proxy (always works)
+    if (isVercel()) {
+      try {
+        return await tryFetch('/api/proxy?url=' + encodeURIComponent(url), 15000);
+      } catch (e) {
+        console.warn('Vercel proxy failed:', e.message);
+      }
+    }
 
-    // Strategy 1: Direct fetch (only when served via HTTP, not file://)
-    if (!useProxy) {
+    // Strategy 2: Direct fetch (works when served via HTTP with CORS)
+    if (!isFileProtocol()) {
       try {
         return await tryFetch(url, 8000);
       } catch (e) {
@@ -83,7 +91,7 @@ const API = (() => {
       }
     }
 
-    // Strategy 2: Use CORS proxies
+    // Strategy 3: Third-party CORS proxies (for file:// protocol)
     const proxies = [
       'https://api.allorigins.win/raw?url=',
       'https://api.codetabs.com/v1/proxy?quest=',
@@ -95,7 +103,6 @@ const API = (() => {
         const result = await tryFetch(proxy + encodeURIComponent(url), 15000);
         if (result) return result;
       } catch (e) {
-        console.warn('Proxy failed:', proxy, e.message);
         continue;
       }
     }
