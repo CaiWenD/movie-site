@@ -82,22 +82,6 @@ const API = (() => {
     }
 
     throw new Error('All request strategies failed');
-    const proxies = [
-      'https://api.allorigins.win/raw?url=',
-      'https://api.codetabs.com/v1/proxy?quest=',
-      'https://corsproxy.io/?url='
-    ];
-
-    for (const proxy of proxies) {
-      try {
-        const result = await tryFetch(proxy + encodeURIComponent(url), 15000);
-        if (result) return result;
-      } catch (e) {
-        continue;
-      }
-    }
-
-    throw new Error('All request strategies failed');
   }
 
   // Get categories from a source
